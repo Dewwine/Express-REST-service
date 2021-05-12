@@ -1,6 +1,9 @@
-const getAll = async () => {
-  // TODO: mock implementation. should be replaced during task development
-  return [];
-};
+const User = require('./user.model');
 
-module.exports = { getAll };
+const USERS = [new User({id: 'xxx'}), new User(), new User()];
+
+const getAll = async () => USERS;
+
+const getById = async (id) => USERS.find(user => user.id === id);
+
+module.exports = { getAll, getById };
