@@ -17,13 +17,22 @@ router.route('/:id').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
   const { body } = req;
   const user = await usersService.createUser(body);
-  await res.status(user ? 201 : 400).send(User.toResponse(user));
+  res.status(user ? 201 : 400).send(User.toResponse(user));
 });
 
 router.route('/:id').delete(async (req, res) => {
   const { id } = req.params;
-  await usersService.deleteUser(id);
-  res.sendStatus(204);
+  const users = await usersService.deleteUser(id);
+  res.sendStatus(users ? 200 : 201);
+});
+
+router.route('/:id').put(async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+
+  const user = await usersService.updateUser(id, body);
+
+  res.status(user ? 200 : 400).json(User.toResponse(user));
 });
 
 module.exports = router;

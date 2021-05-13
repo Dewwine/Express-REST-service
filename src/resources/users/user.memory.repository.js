@@ -15,7 +15,25 @@ const deleteUser = async (id) => {
   if (index > -1) {
     USERS.splice(index, 1);
   }
+  return USERS;
+};
+
+const updateUser = async (id, body) => {
+  const usr = USERS.find(user => user.id === id);
+  const index = USERS.indexOf(usr);
+
+  if (index > -1) {
+    USERS[index] = User.fromRequest(body);
+    USERS[index].id = id;
+  }
+  return USERS;
 };
 
 
-module.exports = { getAll, getById, createUser, deleteUser };
+module.exports = { 
+  getAll, 
+  getById, 
+  createUser, 
+  deleteUser, 
+  updateUser 
+};
