@@ -1,6 +1,7 @@
 const User = require('./user.model');
+const { db } = require('../db/db');
 
-const USERS = [new User(), new User({id: 'xxx'}), new User()];
+const { USERS, TASKS } = db;
 
 const getAll = async () => USERS;
 
@@ -13,9 +14,15 @@ const deleteUser = async (id) => {
   const index = USERS.indexOf(usr);
 
   if (index > -1) {
+    for (let i = 0; i < TASKS.length; i += 1) {      
+      if (TASKS[i].userId === id) {
+        TASKS[i].userId = null;
+      }
+    }
     USERS.splice(index, 1);
+    return 1;
   }
-  return USERS;
+  return 0;
 };
 
 const updateUser = async (id, body) => {
