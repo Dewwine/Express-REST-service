@@ -23,8 +23,12 @@ router.route('/:boardId/tasks').post(async (req, res) => {
 
 router.route('/:boardId/tasks/:id').delete(async (req, res) => {
   const { boardId, id } = req.params;
-  const tasks = await tasksService.deleteTask(boardId, id);
-  res.sendStatus(tasks ? 204 : 404);
+  try {
+    await tasksService.deleteTask(boardId, id);
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.sendStatus(404);
+  }
 });
 
 router.route('/:boardId/tasks/:id').put(async (req, res) => {

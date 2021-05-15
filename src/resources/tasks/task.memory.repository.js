@@ -23,9 +23,7 @@ const deleteTask = async (boardId, id) => {
   
   if (index > -1) {
     TASKS.splice(index, 1);
-    return 1;
   }
-  return 0;
 };
 
 const updateTask = async (boardId, id, body) => {

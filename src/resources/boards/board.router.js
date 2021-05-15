@@ -16,13 +16,17 @@ router.route('/:id').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
   const { body } = req;
   const board = await boardsService.createBoard(body);
-  res.status(board ? 201 : 400).send(Board.toResponse(board));
+  res.status(board ? 201 : 400).json(Board.toResponse(board));
 });
 
 router.route('/:id').delete(async (req, res) => {
   const { id } = req.params;
-  const status = await boardsService.deleteBoard(id);
-  res.sendStatus(status ? 204 : 404);
+  try {
+    await boardsService.deleteBoard(id);
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.sendStatus(404);
+  }
 });
 
 router.route('/:id').put(async (req, res) => {

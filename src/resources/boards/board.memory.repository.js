@@ -22,9 +22,7 @@ const deleteBoard = async (id) => {
       i -= 1;
     }
     BOARDS.splice(index, 1);
-    return 1;
   }
-  return 0;
 };
 
 const updateBoard = async (id, body) => {
