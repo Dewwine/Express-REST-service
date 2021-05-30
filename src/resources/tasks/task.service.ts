@@ -1,4 +1,4 @@
-const tasksRepo = require('./task.memory.repository');
+import tasksRepo from './task.memory.repository';
 
 /**
  * Return all tasks on board
@@ -41,10 +41,10 @@ const deleteTask = (boardId, id) => tasksRepo.deleteTask(boardId, id);
 const updateTask = (boardId, id, body) =>
   tasksRepo.updateTask(boardId, id, body);
 
-module.exports = {
-  getAll,
-  getTask,
-  createTask,
-  deleteTask,
-  updateTask,
-};
+  export default {
+    getAll,
+    getTask,
+    createTask,
+    deleteTask,
+    updateTask,
+  };

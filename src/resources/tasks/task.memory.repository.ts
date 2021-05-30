@@ -1,5 +1,5 @@
-const Task = require('./task.model');
-const { db } = require('../db/db');
+import Task from './task.model';
+import db from '../db/db';
 
 const { TASKS } = db;
 
@@ -70,7 +70,7 @@ const updateTask = async (boardId, id, body) => {
   return {};
 };
 
-module.exports = {
+export default {
   getAll,
   getById,
   createTask,

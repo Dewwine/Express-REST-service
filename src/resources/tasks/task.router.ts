@@ -1,6 +1,8 @@
-const router = require('express').Router();
-const Task = require('./task.model');
-const tasksService = require('./task.service');
+import express from 'express';
+import Task from './task.model';
+import tasksService from './task.service';
+
+const router = express.Router();
 
 router.route('/:boardId/tasks').get(async (req, res) => {
   const { boardId } = req.params;
@@ -38,4 +40,4 @@ router.route('/:boardId/tasks/:id').put(async (req, res) => {
   res.status(task ? 200 : 400).json(Task.toResponse(task));
 });
 
-module.exports = router;
+export default router;

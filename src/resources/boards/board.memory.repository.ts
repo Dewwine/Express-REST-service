@@ -1,5 +1,5 @@
-const Board = require('./board.model');
-const { db } = require('../db/db');
+import Board from './board.model';
+import db from '../db/db';
 
 const { BOARDS, TASKS } = db;
 
@@ -63,7 +63,7 @@ const updateBoard = async (id, body) => {
   return {};
 };
 
-module.exports = {
+export default {
   getAll,
   getById,
   createBoard,
