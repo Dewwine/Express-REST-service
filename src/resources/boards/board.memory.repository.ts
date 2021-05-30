@@ -16,7 +16,7 @@ const createBoard = async (body: IBoardRequest): Promise<Board> =>
 const deleteBoard = async (id: string | undefined): Promise<void> => {
   const brd: Board = BOARDS.find((board) => board.id === id) as Board;
   const index = BOARDS.indexOf(brd);
-
+  
   if (index > -1) {
     for (let i = 0; i < TASKS.length; i += 1) {
       TASKS.splice(i, 1);

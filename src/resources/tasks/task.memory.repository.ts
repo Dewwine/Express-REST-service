@@ -14,7 +14,7 @@ const createTask = async (boardId: string | undefined, body: ITaskRequest): Prom
   if (boardId !== undefined) {
     body.boardId = boardId;
   }
-  const task = new Task(body);
+  const task: Task = new Task(body);
   return TASKS[TASKS.push(task) - 1] as Task;
 };
 
@@ -22,7 +22,7 @@ const deleteTask = async (boardId: string | undefined, id: string | undefined): 
   const tasks = TASKS.find(
     (task) => task.id === id && task.boardId === boardId
   );
-  const index = TASKS.indexOf(tasks as Task) ;
+  const index = TASKS.indexOf(tasks);
 
   if (index > -1) {
     TASKS.splice(index, 1);

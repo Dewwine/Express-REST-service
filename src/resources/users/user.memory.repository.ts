@@ -17,12 +17,12 @@ const createUser = async (body: IUserRequest): Promise<User> => {
 const deleteUser = async (id: string | undefined): Promise<void> => {
   const usr: User = USERS.find((user) => user.id === id) as User;
   const index = USERS.indexOf(usr);
-
+  
   if (index > -1) {
     for (let i = 0; i < TASKS.length; i += 1) {
-      if (TASKS[i].userId === id) {
-        TASKS[i].userId = null;
-      }
+        if (TASKS[i]!.userId === id) {
+          TASKS[i]!.userId = null;
+        }
     }
     USERS.splice(index, 1);
   }
