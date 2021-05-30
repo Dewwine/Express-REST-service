@@ -4,7 +4,7 @@ const usersService = require('./user.service');
 
 router.route('/').get(async (req, res) => {
   const users = await usersService.getAll();
-  res.status(users ? 200 : 401).json(users.map(User.toResponse));
+  res.status(users ? 200 : 401).json(users);
 });
 
 router.route('/:id').get(async (req, res) => {
