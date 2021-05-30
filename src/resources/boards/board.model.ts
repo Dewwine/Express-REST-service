@@ -1,6 +1,21 @@
 import { v4 as uuid } from 'uuid';
 
+interface IBoardResponse {
+  id: string;
+  title: string;
+  columns: { id: string; title: string; order: number; }[];
+}
+
+interface IBoardRequest {
+  id: string;
+  title: string;
+  columns: { id: string; title: string; order: number; }[];
+}
+
 class Board {
+  id: string;
+  title: string;
+  columns: { id: string; title: string; order: number; }[];
   constructor({
     id = uuid(),
     title = 'Board',
@@ -17,24 +32,11 @@ class Board {
     this.columns = columns;
   }
 
-  /**
-   * Return board ready to response
-   * @param {object} board - board object
-   * @returns {object} - updated board
-   */
-  static toResponse(board) {
+  static toResponse(board: Board): IBoardResponse {
     const { id, title, columns } = board;
     return { id, title, columns };
-  }
-
-  /**
-   * Generate Board from parameters
-   * @param {object} body - object of data
-   * @returns {object} - generated Board
-   */
-  static fromRequest(body) {
-    return new Board(body);
   }
 }
 
 export default Board;
+export { IBoardResponse, IBoardRequest };

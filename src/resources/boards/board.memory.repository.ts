@@ -1,39 +1,20 @@
-import Board from './board.model';
+import Board, { IBoardRequest } from './board.model';
 import db from '../db/db';
 
 const { BOARDS, TASKS } = db;
 
-/**
- * Return all board
- * @returns {array} - array of boards
- */
-const getAll = async () => BOARDS;
+const getAll = async (): Promise<Board[]> => BOARDS;
 
-/**
- * Return board by id
- * @param {string} id - id of board
- * @returns {object} - board or empty object
- */
-const getById = async (id) => {
+const getById = async (id: string | undefined): Promise<Board> => {
   const brd = BOARDS.find((board) => board.id === id);
-  return brd !== undefined ? brd : 0;
+  return brd !== undefined ? brd : {} as Board;
 };
 
-/**
- * Create board
- * @param {object} body - object of data
- * @returns {object} - created board
- */
-const createBoard = async (body) =>
-  BOARDS[BOARDS.push(Board.fromRequest(body)) - 1];
+const createBoard = async (body: IBoardRequest): Promise<Board> =>
+  BOARDS[BOARDS.push(new Board(body)) - 1] as Board;
 
-/**
- * Delete board by id
- * @param {string} id - id of board
- * @returns {void}
- */
-const deleteBoard = async (id) => {
-  const brd = BOARDS.find((board) => board.id === id);
+const deleteBoard = async (id: string | undefined): Promise<void> => {
+  const brd: Board = BOARDS.find((board) => board.id === id) as Board;
   const index = BOARDS.indexOf(brd);
 
   if (index > -1) {
@@ -45,22 +26,15 @@ const deleteBoard = async (id) => {
   }
 };
 
-/**
- * Update board by id
- * @param {string} id - id of board
- * @param {object} body - object of data
- * @returns {object} - updated board or empty object
- */
-const updateBoard = async (id, body) => {
-  const brd = BOARDS.find((board) => board.id === id);
+const updateBoard = async (id: string | undefined, body: IBoardRequest): Promise<Board | undefined> => {
+  const brd: Board = BOARDS.find((board) => board.id === id) as Board;
   const index = BOARDS.indexOf(brd);
 
-  if (index > -1) {
-    BOARDS[index] = Board.fromRequest(body);
-    BOARDS[index].id = id;
-    return BOARDS[index];
+  if (index > -1 && id !== undefined) {
+    body.id = id;
+    BOARDS[index] = new Board(body);
   }
-  return {};
+  return BOARDS[index];
 };
 
 export default {

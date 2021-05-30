@@ -35,7 +35,6 @@ const updateUser = async (id: string | undefined, body: IUserRequest): Promise<U
   if (index > -1 && id !== undefined) {
     body.id = id;
     USERS[index] = new User(body);
-    // USERS[index].id = id;
   }
   return USERS[index];
 };
