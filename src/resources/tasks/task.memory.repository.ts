@@ -1,73 +1,44 @@
-import Task from './task.model';
+import Task, { ITaskRequest } from './task.model';
 import db from '../db/db';
 
 const { TASKS } = db;
 
-/**
- * Return all tasks on board
- * @param {string} id - id of board
- * @returns {array} - array of tasks
- */
-const getAll = async (id) => TASKS.filter((task) => task.boardId === id);
+const getAll = async (id: string | undefined): Promise<Task[]> => TASKS.filter((task) => task.boardId === id);
 
-/**
- * Return task on board by id
- * @param {string} boardId - id of board
- * @param {string} id - id of task
- * @returns {object} - task or empty object
- */
-const getById = async (boardId, id) => {
+const getById = async (boardId: string | undefined, id: string | undefined): Promise<Task> => {
   const tsk = TASKS.find((task) => task.boardId === boardId && task.id === id);
-  return tsk !== undefined ? tsk : 0;
+  return tsk !== undefined ? tsk : {} as Task;
 };
 
-/**
- * Create task on board by id
- * @param {string} boardId - id of board
- * @param {object} body - object of data
- * @returns {object} - created task
- */
-const createTask = async (boardId, body) => {
-  const task = Task.fromRequest(body);
-  task.boardId = boardId;
-  return TASKS[TASKS.push(task) - 1];
+const createTask = async (boardId: string | undefined, body: ITaskRequest): Promise<Task> => {
+  if (boardId !== undefined) {
+    body.boardId = boardId;
+  }
+  const task = new Task(body);
+  return TASKS[TASKS.push(task) - 1] as Task;
 };
 
-/**
- * Delete task on board by id
- * @param {string} boardId - id of board
- * @param {string} id - id of task
- * @returns {void}
- */
-const deleteTask = async (boardId, id) => {
+const deleteTask = async (boardId: string | undefined, id: string | undefined): Promise<void> => {
   const tasks = TASKS.find(
     (task) => task.id === id && task.boardId === boardId
   );
-  const index = TASKS.indexOf(tasks);
+  const index = TASKS.indexOf(tasks as Task) ;
 
   if (index > -1) {
     TASKS.splice(index, 1);
   }
 };
 
-/**
- * Update task on board by id
- * @param {string} boardId - id of board
- * @param {string} id - id of task
- * @param {object} body - object of data
- * @returns {object} - updated task or empty object
- */
-const updateTask = async (boardId, id, body) => {
-  const tsk = TASKS.find((task) => task.id === id && task.boardId === boardId);
+const updateTask = async (boardId: string | undefined, id: string | undefined, body: ITaskRequest): Promise<Task | undefined> => {
+  const tsk = TASKS.find((task) => task.id === id && task.boardId === boardId) as Task;
   const index = TASKS.indexOf(tsk);
 
-  if (index > -1) {
-    TASKS[index] = Task.fromRequest(body);
-    TASKS[index].id = id;
-    TASKS[index].boardId = boardId;
-    return TASKS[index];
+  if (index > -1 && id !== undefined && boardId !== undefined) {
+    body.id = id;
+    body.boardId = boardId;
+    TASKS[index] = new Task(body);
   }
-  return {};
+  return TASKS[index];
 };
 
 export default {

@@ -1,5 +1,33 @@
 import { v4 as uuid } from 'uuid';
+
+interface ITaskResponse {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
+}
+
+interface ITaskRequest {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
+}
+
 class Task {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
   constructor({
     id = uuid(),
     title = 'Task',
@@ -18,24 +46,11 @@ class Task {
     this.columnId = columnId;
   }
 
-  /**
-   * Return task ready to response
-   * @param {object} task - task object
-   * @returns {object} - updated task
-   */
-  static toResponse(task) {
+  static toResponse(task: Task): ITaskResponse {
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };
-  }
-
-  /**
-   * Generate Task from parameters
-   * @param {object} body - object of data
-   * @returns {object} - generated Task
-   */
-  static fromRequest(body) {
-    return new Task(body);
   }
 }
 
 export default Task;
+export { ITaskResponse, ITaskRequest };
