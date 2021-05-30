@@ -3,17 +3,37 @@ const { db } = require('../db/db');
 
 const { BOARDS, TASKS } = db;
 
+/**
+ * Return all board
+ * @returns {array} - array of boards
+ */
 const getAll = async () => BOARDS;
 
+/**
+ * Return board by id
+ * @param {string} id - id of board
+ * @returns {object} - board or empty object
+ */
 const getById = async (id) => {
-  const brd = BOARDS.find(board => board.id === id);
-  return (brd !== undefined) ? brd : 0;
+  const brd = BOARDS.find((board) => board.id === id);
+  return brd !== undefined ? brd : 0;
 };
 
-const createBoard = async (body) => BOARDS[BOARDS.push(Board.fromRequest(body)) - 1];
+/**
+ * Create board
+ * @param {object} body - object of data
+ * @returns {object} - created board
+ */
+const createBoard = async (body) =>
+  BOARDS[BOARDS.push(Board.fromRequest(body)) - 1];
 
+/**
+ * Delete board by id
+ * @param {string} id - id of board
+ * @returns {void}
+ */
 const deleteBoard = async (id) => {
-  const brd = BOARDS.find(board => board.id === id);
+  const brd = BOARDS.find((board) => board.id === id);
   const index = BOARDS.indexOf(brd);
 
   if (index > -1) {
@@ -25,8 +45,14 @@ const deleteBoard = async (id) => {
   }
 };
 
+/**
+ * Update board by id
+ * @param {string} id - id of board
+ * @param {object} body - object of data
+ * @returns {object} - updated board or empty object
+ */
 const updateBoard = async (id, body) => {
-  const brd = BOARDS.find(board => board.id === id);
+  const brd = BOARDS.find((board) => board.id === id);
   const index = BOARDS.indexOf(brd);
 
   if (index > -1) {
@@ -34,14 +60,13 @@ const updateBoard = async (id, body) => {
     BOARDS[index].id = id;
     return BOARDS[index];
   }
-  return BOARDS;
+  return {};
 };
 
-
-module.exports = { 
-  getAll, 
-  getById, 
+module.exports = {
+  getAll,
+  getById,
   createBoard,
-  deleteBoard, 
-  updateBoard 
+  deleteBoard,
+  updateBoard,
 };

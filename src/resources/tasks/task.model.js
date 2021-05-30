@@ -20,7 +20,7 @@ class Task {
   }
 
   /**
-   * Return task without password
+   * Return task ready to response
    * @param {object} task - task object
    * @returns {object} - updated task
    */
