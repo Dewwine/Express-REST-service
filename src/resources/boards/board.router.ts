@@ -4,26 +4,28 @@ import boardsService from './board.service';
 
 const router = express.Router();
 
-router.route('/').get(async (_req, res) => {
+router.route('/').get(async (_req: express.Request, res: express.Response) => {
   const boards = await boardsService.getAll();
   res.status(boards ? 200 : 401).json(boards.map(Board.toResponse));
 });
 
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get(async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
   const board = await boardsService.getBoard(id);
-  res
-    .status(Object.keys(board).length ? 200 : 404)
-    .json(Board.toResponse(board));
+  if (board !== undefined) {
+    res.status(200).json(Board.toResponse(board));
+  } else {
+    res.sendStatus(404);
+  }
 });
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req: express.Request, res: express.Response) => {
   const { body } = req;
   const board = await boardsService.createBoard(body);
   res.status(board ? 201 : 400).json(Board.toResponse(board));
 });
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete(async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
   try {
     await boardsService.deleteBoard(id);
@@ -33,11 +35,15 @@ router.route('/:id').delete(async (req, res) => {
   }
 });
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put(async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
   const { body } = req;
   const board = await boardsService.updateBoard(id, body);
-  res.status(board ? 200 : 400).json(Board.toResponse(board));
+  if (board !== undefined) {
+    res.status(200).json(Board.toResponse(board));
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 export default router;
