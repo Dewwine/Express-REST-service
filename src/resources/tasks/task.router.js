@@ -5,13 +5,13 @@ const tasksService = require('./task.service');
 router.route('/:boardId/tasks').get(async (req, res) => {
   const { boardId } = req.params;
   const tasks = await tasksService.getAll(boardId);
-  res.status(tasks ? 200 : 401).json(tasks.map(Task.toResponse));
+  res.status(tasks ? 200 : 401).json(tasks);
 });
 
 router.route('/:boardId/tasks/:id').get(async (req, res) => {
   const { boardId, id } = req.params;
   const task = await tasksService.getTask(boardId, id);
-  res.status(task ? 200 : 404).json(Task.toResponse(task));
+  res.status(Object.keys(task).length ? 200 : 404).json(Task.toResponse(task));
 });
 
 router.route('/:boardId/tasks').post(async (req, res) => {

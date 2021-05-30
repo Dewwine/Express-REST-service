@@ -5,28 +5,28 @@ const { USERS, TASKS } = db;
 
 /**
  * Return all users
- * @returns {array} USERS
+ * @returns {array} - array of users
  */
 const getAll = async () => USERS;
 
 /**
  * Return user by id
- * @param {string} id
- * @returns {object} User
+ * @param {string} id - id of user
+ * @returns {object} User - user or empty object
  */
 const getById = async (id) => USERS.find((user) => user.id === id);
 
 /**
  * Create user by parameters
- * @param {object} body
- * @returns {object} User
+ * @param {object} body - object of data
+ * @returns {object} - created user
  */
 const createUser = async (body) =>
   USERS[USERS.push(User.fromRequest(body)) - 1];
 
 /**
  * Delete user by id
- * @param {string} id
+ * @param {string} id - id of user
  * @returns {void}
  */
 const deleteUser = async (id) => {
@@ -45,9 +45,9 @@ const deleteUser = async (id) => {
 
 /**
  * Update user by id and parameters
- * @param {string} id
- * @param {object} body
- * @returns {object} User
+ * @param {string} id - id of user
+ * @param {object} body - object of data
+ * @returns {object} - updated user
  */
 const updateUser = async (id, body) => {
   const usr = USERS.find((user) => user.id === id);
