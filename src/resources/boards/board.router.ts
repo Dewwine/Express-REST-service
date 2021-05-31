@@ -12,11 +12,9 @@ router.route('/').get(async (_req: express.Request, res: express.Response) => {
 router.route('/:id').get(async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
   const board = await boardsService.getBoard(id);
-  if (board !== undefined) {
-    res.status(200).json(Board.toResponse(board));
-  } else {
-    res.sendStatus(404);
-  }
+  res
+    .status(Object.keys(board).length ? 200 : 404)
+    .json(Board.toResponse(board));
 });
 
 router.route('/').post(async (req: express.Request, res: express.Response) => {
@@ -39,11 +37,7 @@ router.route('/:id').put(async (req: express.Request, res: express.Response) => 
   const { id } = req.params;
   const { body } = req;
   const board = await boardsService.updateBoard(id, body);
-  if (board !== undefined) {
-    res.status(200).json(Board.toResponse(board));
-  } else {
-    res.sendStatus(400);
-  }
+  res.status(board ? 200 : 400).json(Board.toResponse(board));
 });
 
 export default router;

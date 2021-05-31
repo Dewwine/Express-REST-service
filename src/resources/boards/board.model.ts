@@ -1,19 +1,19 @@
 import { v4 as uuid } from 'uuid';
 
 interface IBoardResponse {
-  id: string;
+  id: string | undefined;
   title: string;
   columns: { id: string; title: string; order: number; }[];
 }
 
 interface IBoardRequest {
-  id: string;
+  id: string | undefined;
   title: string;
   columns: { id: string; title: string; order: number; }[];
 }
 
 class Board {
-  id: string;
+  id: string | undefined;
   title: string;
   columns: { id: string; title: string; order: number; }[];
   constructor({

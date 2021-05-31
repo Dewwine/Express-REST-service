@@ -12,6 +12,7 @@ interface IUserRequest {
   login: string;
   password: string;
 }
+
 class User {
   id: string;
   name: string;

@@ -1,22 +1,22 @@
 import { v4 as uuid } from 'uuid';
 
 interface ITaskResponse {
-  id: string;
+  id: string | undefined;
   title: string;
   order: number;
   description: string;
-  userId: string;
-  boardId: string;
+  userId: string | null | undefined;
+  boardId: string | undefined;
   columnId: string;
 }
 
 interface ITaskRequest {
-  id: string;
+  id: string | undefined;
   title: string;
   order: number;
   description: string;
-  userId: string;
-  boardId: string;
+  userId: string | null | undefined;
+  boardId: string | undefined;
   columnId: string;
 }
 
@@ -25,7 +25,7 @@ class Task {
   title: string;
   order: number;
   description: string;
-  userId: string;
+  userId: string | null | undefined;
   boardId: string;
   columnId: string;
   constructor({
@@ -46,7 +46,7 @@ class Task {
     this.columnId = columnId;
   }
 
-  static toResponse(task: Task): ITaskResponse {
+  static toResponse(task: ITaskRequest): ITaskResponse {
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };
   }
