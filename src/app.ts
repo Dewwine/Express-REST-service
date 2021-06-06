@@ -6,7 +6,7 @@ import YAML from 'yamljs';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
-import { requestLogger } from './middleware/logger';
+import { errorLogger, requestLogger } from './middleware/logger';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -33,8 +33,12 @@ app.use('/boards/', taskRouter);
 app.use(errorHandler);
 
 process.on('uncaughtException', (error: Error) => {
-  errorHandler(error);
+  errorLogger(error);
+  process.exit(1);
 })
 
+process.on('unhandledRejection', (error: Error) => {  
+  errorLogger(error);
+})
 
 export default app;

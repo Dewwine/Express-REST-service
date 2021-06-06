@@ -41,7 +41,7 @@ const requestLogger = (req: express.Request, res: express.Response, next: expres
 
 const errorLogger = (err: Error): void => {
   logger.log('error', {
-    'error': err
+    'error': err.message
   });
 }
 
