@@ -15,7 +15,7 @@ interface ITaskRequest {
   title: string;
   order: number;
   description: string;
-  userId: string | null | undefined;
+  userId: string | undefined;
   boardId: string | undefined;
   columnId: string;
 }
@@ -46,7 +46,7 @@ class Task {
     this.columnId = columnId;
   }
 
-  static toResponse(task: ITaskRequest): ITaskResponse {
+  static toResponse(task: Task): ITaskResponse {
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };
   }

@@ -1,7 +1,7 @@
 import tasksRepo from './task.memory.repository';
-import Task, { ITaskResponse, ITaskRequest } from './task.model';
+import Task, { ITaskRequest } from './task.model';
 
-const getAll = (boardId: string | undefined): Promise<ITaskResponse[]> => tasksRepo.getAll(boardId);
+const getAll = (boardId: string | undefined): Promise<Task[]> => tasksRepo.getAll(boardId);
 
 const getTask = (boardId: string | undefined, id: string | undefined): Promise<Task> => tasksRepo.getById(boardId, id);
 

@@ -1,7 +1,7 @@
 import usersRepo from './user.memory.repository';
-import User, { IUserResponse, IUserRequest } from './user.model';
+import User, { IUserRequest } from './user.model';
 
-const getAll = (): Promise<IUserResponse[]> => usersRepo.getAll();
+const getAll = (): Promise<User[]> => usersRepo.getAll();
 
 const getUser = (id: string | undefined): Promise<User | undefined> => usersRepo.getById(id);
 
