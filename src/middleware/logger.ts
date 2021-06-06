@@ -1,10 +1,10 @@
 import { createLogger, format, transports } from 'winston';
+import express from 'express';
 
 const logger = createLogger({
   level: 'silly',
   format: format.combine(
-    format.colorize(),
-    format.cli()
+    format.prettyPrint()
   ),
   transports: [
     new transports.Console(),
@@ -12,7 +12,6 @@ const logger = createLogger({
       level: 'info',
       filename: './logs/info.log',
       format: format.combine(
-        format.uncolorize(),
         format.json()
       )
     }),
@@ -20,11 +19,30 @@ const logger = createLogger({
       level: 'error',
       filename: './logs/error.log',
       format: format.combine(
-        format.uncolorize(),
         format.json()
       )
     })
   ]
 });
 
-export default logger;
+
+const requestLogger = (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+  const { method, url, query, body } = req;
+  const { statusCode } = res;
+  logger.log('info', {
+    'method': method,
+    'url': url,
+    'query': query,
+    'body': body,
+    'statusCode': statusCode
+  })
+  next();
+}
+
+const errorLogger = (err: Error, _req: express.Request, res: express.Response, next: express.NextFunction): void => {
+  logger.log('error', {
+    'error': err
+  });
+}
+
+export { requestLogger, errorLogger };
