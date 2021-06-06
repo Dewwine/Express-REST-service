@@ -32,4 +32,9 @@ app.use('/boards/', taskRouter);
 
 app.use(errorHandler);
 
+process.on('uncaughtException', (error: Error) => {
+  errorHandler(error);
+})
+
+
 export default app;

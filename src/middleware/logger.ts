@@ -39,7 +39,7 @@ const requestLogger = (req: express.Request, res: express.Response, next: expres
   next();
 }
 
-const errorLogger = (err: Error, _req: express.Request, res: express.Response, next: express.NextFunction): void => {
+const errorLogger = (err: Error): void => {
   logger.log('error', {
     'error': err
   });
