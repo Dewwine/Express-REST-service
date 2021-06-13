@@ -1,4 +1,4 @@
-import User, { IUserRequest, IUserResponse } from './user.model';
+import User, { IUserRequest } from './user.model';
 import db from '../db/db';
 
 const { USERS, TASKS } = db;
@@ -15,16 +15,19 @@ const createUser = async (body: IUserRequest): Promise<User> => {
 }
 
 const deleteUser = async (id: string | undefined): Promise<void> => {
-  const usr: User = USERS.find((user) => user.id === id) as User;
-  const index = USERS.indexOf(usr);
+  const usr = USERS.find((user) => user.id === id);
+  let index;
+  if (usr !== undefined) {
+    index = USERS.indexOf(usr);
 
-  if (index > -1) {
-    for (let i = 0; i < TASKS.length; i += 1) {
-      if (TASKS[i].userId === id) {
-        TASKS[i].userId = null;
+    if (index > -1) {
+      for (let i = 0; i < TASKS.length; i += 1) {
+          if (TASKS[i]?.userId === id) {
+            TASKS[i]!.userId = null;
+        }
       }
+      USERS.splice(index, 1);
     }
-    USERS.splice(index, 1);
   }
 };
 
@@ -35,7 +38,6 @@ const updateUser = async (id: string | undefined, body: IUserRequest): Promise<U
   if (index > -1 && id !== undefined) {
     body.id = id;
     USERS[index] = new User(body);
-    // USERS[index].id = id;
   }
   return USERS[index];
 };

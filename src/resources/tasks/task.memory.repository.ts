@@ -1,9 +1,9 @@
-import Task, { ITaskResponse, ITaskRequest } from './task.model';
+import Task, { ITaskRequest } from './task.model';
 import db from '../db/db';
 
 const { TASKS } = db;
 
-const getAll = async (id: string | undefined): Promise<ITaskResponse[]> => TASKS.filter((task) => task.boardId === id);
+const getAll = async (id: string | undefined): Promise<Task[]> => TASKS.filter((task) => task.boardId === id);
 
 const getById = async (boardId: string | undefined, id: string | undefined): Promise<Task> => {
   const tsk = TASKS.find((task) => task.boardId === boardId && task.id === id);
